@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: echoserver-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: echoserver
+    image: gcr.io/kubernetes-e2e-test-images/echoserver:2.2
+    ports:
+    - containerPort: 80
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: echoserver-svc
+# spec:
+#   selector:
+#     app: myapp
+#   ports:
+#   - name: echoserver-web
+#     protocol: TCP
+#     port: 80
+#     targetPort: 9376
+...
