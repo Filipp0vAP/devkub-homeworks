@@ -46,6 +46,34 @@
 
 ------
 
+## Ответ
+
+### Задание 1. Создать Pod с именем hello-world
+
+1. Манифест создал - [Манифест](./12-kubernetes-02.yaml)
+2. Использовал image - gcr.io/kubernetes-e2e-test-images/echoserver:2.2.
+
+    ![echoserver](./img/echoserver.png)
+
+    И поднял под
+
+    ![echoserver-pod](./img/echoserver-pod.png)
+
+3. Подключился к кластеру и к поду
+
+    ![echoserver-froward](./img/echoserver-forward.png)
+
+    И открыл в браузере
+
+    ![echoserver-browser](./img/echoserver-browser.png)
+
+
+### Задание 2. Создать Service и подключить его к Pod
+
+
+
+------
+
 ### Критерии оценки
 Зачёт — выполнены все задания, ответы даны в развернутой форме, приложены соответствующие скриншоты и файлы проекта, в выполненных заданиях нет противоречий и нарушения логики.
 
