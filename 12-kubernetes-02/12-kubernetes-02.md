@@ -70,6 +70,16 @@
 
 ### Задание 2. Создать Service и подключить его к Pod
 
+- Переписал [манифест](./12-kubernetes-02.yaml), создал под и сервис
+
+    ![netology-yml.png](./img/netology-yml.png)
+
+
+- Подключился через port-forward и открыл в браузере
+
+    ![netology-web](./img/netology-web.png)
+
+    ![netology-curl](./img/netology-curl.png)
 
 
 ------
