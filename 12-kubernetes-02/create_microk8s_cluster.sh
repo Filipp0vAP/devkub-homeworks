@@ -38,6 +38,7 @@ echo -e "${LIGHTTURQUOISE}Add current user to microk8s group - OK${NC}"
 
 # Enable required microk8s addons
 echo -e "${YELLOW}Enable required microk8s addons${NC}"
+sleep 10
 microk8s enable dns dashboard
 echo -e "${LIGHTTURQUOISE}Enable required microk8s addons - OK${NC}"
 
