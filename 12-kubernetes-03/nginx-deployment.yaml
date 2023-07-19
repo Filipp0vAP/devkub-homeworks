@@ -25,4 +25,5 @@ spec:
         image: wbitt/network-multitool
         imagePullPolicy: IfNotPresent
         env:
-          - HTTP_PORT = 8080
+          - name: HTTP_PORT 
+            value: "8080"
