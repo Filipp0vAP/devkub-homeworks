@@ -1,6 +1,6 @@
 @startuml deployment
 
-footer 13.3
+footer 12.3
 scale max 1024 width
 
 skinparam nodesep 10
@@ -13,21 +13,22 @@ skinparam ranksep 40
 !includeurl KubernetesPuml/kubernetes_Simplified.puml
 
 !includeurl KubernetesPuml/OSS/KubernetesPod.puml
-!includeurl KubernetesPuml/OSS/KubernetesSecret.puml
-!includeurl KubernetesPuml/OSS/KubernetesCm.puml
+!includeurl KubernetesPuml/OSS/KubernetesDeploy.puml
+!includeurl KubernetesPuml/OSS/KubernetesRs.puml
+
+left to right direction
 
 Cluster_Boundary(cluster, "Kubernetes Cluster") {
-  Namespace_Boundary(ns1, "Namespace1") {
-    KubernetesPod(pod1, "pod\nnginx", "")
-    KubernetesCm(cm1, "Config\nindex.html", "")
-    KubernetesSecret(sec1, "Secret\nTLS cert", "")
-    }
 
-  pod1 <-- cm1
-  pod1 <-- sec1
+  KubernetesDeploy(deploy, "Deployment", "")
+  KubernetesRs(rs1, "ReplicaSet", "")
+  KubernetesPod(pod1, "pod-1", "")
+  KubernetesPod(pod2, "pod-2", "")
 
+  deploy -d-> rs1
+  rs1 -d-> pod1
+  rs1 -d-> pod2
 }
 
-@enduml
 
 @enduml
