@@ -52,7 +52,9 @@
 4. Service создал
 
     ![svc](./img/svc.png)
-5. 
+5. Создал под и сделал курл до сервиса
+
+    ![multitool_curl](./img/multitool_curl.png)
 ------
 
 ### Правила приема работы
