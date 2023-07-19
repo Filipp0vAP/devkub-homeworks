@@ -49,6 +49,8 @@
 ![replica_1](./img/replica_1.png)
 ![replica_2](./img/replica_2.png)
 
+4. 
+
 ------
 
 ### Правила приема работы
