@@ -46,11 +46,13 @@
 1. [Deployment](./nginx-deployment.yaml) создал. Проблема оказалась в том, что у multitool по умолчанию используется порт 80, но он уже занят контейнером nginx
 Так что пришлось переназначит порт с помощью переменной окружения
 2. Скрины до и после масштабирования
-![replica_1](./img/replica_1.png)
-![replica_2](./img/replica_2.png)
 
-4. 
+    ![replica_1](./img/replica_1.png)
+    ![replica_2](./img/replica_2.png)
+4. Service создал
 
+    ![svc](./img/svc.png)
+5. 
 ------
 
 ### Правила приема работы

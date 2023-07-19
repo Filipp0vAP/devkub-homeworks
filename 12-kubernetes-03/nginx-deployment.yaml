@@ -47,4 +47,21 @@ spec:
     protocol: TCP
     port: 8080
     targetPort: 8080
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multitool-web
+  labels:
+    app: multitool
+spec:
+  containers:
+  - name: multitool
+    image: wbitt/network-multitool
+    imagePullPolicy: IfNotPresent
+    env:
+      - name: HTTP_PORT 
+        value: "8082"
+    ports:
+    - containerPort: 8082
 ...
