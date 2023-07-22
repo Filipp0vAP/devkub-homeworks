@@ -41,11 +41,11 @@ spec:
   ports:
   - name: ngixn-port
     protocol: TCP
-    nodePort: 9001
+    nodePort: 30001
     port: 80
   - name: multitool-port
     protocol: TCP
-    nodePort: 9002
+    nodePort: 30002
     port: 8080
   type: NodePort
 ...
