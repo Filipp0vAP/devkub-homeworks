@@ -96,20 +96,22 @@ metadata:
   name: myingress
   labels:
     name: myingress
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - host: 
     http:
       paths:
-      - pathType: Prefix
-        path: /
+      - path: /
+        pathType: Prefix
         backend:
           service:
             name: frontend-svc
             port:
               name: frontend-port
-      - pathType: Prefix
-        path: /api
+      - path: /api
+        pathType: Prefix
         backend:
           service:
             name: backend-svc
