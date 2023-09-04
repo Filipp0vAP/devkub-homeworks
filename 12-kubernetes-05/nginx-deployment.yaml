@@ -89,4 +89,30 @@ spec:
     protocol: TCP
     port: 9002
     targetPort: 8080    
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  labels:
+    name: myingress
+spec:
+  rules:
+  - host: 
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: frontend-svc
+            port: 
+              number: 9001
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: backend-svc
+            port: 
+              number: 9002
 ...
