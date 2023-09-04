@@ -52,7 +52,7 @@ spec:
         image: wbitt/network-multitool
         imagePullPolicy: IfNotPresent
         env:
-          - name: HTTP_PORT 
+          - name: HTTP_PORT
             value: "8080"
         ports:
         - containerPort: 8080
@@ -88,7 +88,7 @@ spec:
   - name: backend-port
     protocol: TCP
     port: 9002
-    targetPort: 8080    
+    targetPort: 8080
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -98,7 +98,7 @@ metadata:
     name: myingress
 spec:
   rules:
-  - host: 
+  - host:
     http:
       paths:
       - pathType: Prefix
@@ -106,13 +106,13 @@ spec:
         backend:
           service:
             name: frontend-svc
-            port: 
+            port:
               number: 9001
       - pathType: Prefix
-        path: "/"
+        path: "/api"
         backend:
           service:
             name: backend-svc
-            port: 
+            port:
               number: 9002
 ...
