@@ -51,7 +51,12 @@
     ![no_ingress](./img/no_ingress.png)
 
 
+### Задание 2. Создать Ingress и обеспечить доступ к приложениям снаружи кластера
 
+- Добавил Ingress в [Манифест](./nginx-deployment.yaml)
+- Прописал в хост файл dns имя netology.filipp0vap.ru до машины и открыл адрес в браузере
+
+    ![ingress](./img/ingress.png)
 
 
 ------
