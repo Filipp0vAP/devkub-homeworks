@@ -39,13 +39,13 @@ echo -e "${LIGHTTURQUOISE}Add current user to microk8s group - OK${NC}"
 # Enable required microk8s addons
 echo -e "${YELLOW}Enable required microk8s addons${NC}"
 sleep 10
-microk8s enable dns dashboard
+microk8s enable dns dashboard ingress
 echo -e "${LIGHTTURQUOISE}Enable required microk8s addons - OK${NC}"
 
 #add public ip into cluster's config
 echo -e "${YELLOW}add public ip into cluster's config${NC}"
 ip_address=$(curl -s 2ip.ru)
-sed -i "/^IP\.1/a IP.2 = $ip_address" /var/snap/microk8s/current/certs/csr.conf.template
+sed -i "/^IP\.2/a IP.3 = $ip_address" /var/snap/microk8s/current/certs/csr.conf.template
 echo -e "${LIGHTTURQUOISE}add public ip into cluster's config - OK${NC}"
 
 # Refresh-certs
