@@ -98,21 +98,21 @@ metadata:
     name: myingress
 spec:
   rules:
-  - host:
+  - host: 
     http:
       paths:
       - pathType: Prefix
-        path: "/"
+        path: /
         backend:
           service:
             name: frontend-svc
             port:
-              number: 9001
+              name: frontend-port
       - pathType: Prefix
-        path: "/api"
+        path: /api
         backend:
           service:
             name: backend-svc
             port:
-              number: 9002
+              name: backend-port
 ...
