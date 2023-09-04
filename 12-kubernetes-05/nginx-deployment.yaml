@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: frontend-deployment
   labels:
-    app: netology
+    app: frontend
   namespace: default
 spec:
   replicas: 3
@@ -35,7 +35,7 @@ kind: Deployment
 metadata:
   name: backend-deployment
   labels:
-    app: netology
+    app: backend
   namespace: default
 spec:
   replicas: 1
@@ -67,17 +67,26 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: netology-svc
+  name: frontend-svc
 spec:
   selector:
-    app: netology
+    app: frontend
   ports:
   - name: frontend-port
     protocol: TCP
     port: 9001
     targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-svc
+spec:
+  selector:
+    app: backend
+  ports:
   - name: backend-port
     protocol: TCP
     port: 9002
-    targetPort: 8080
+    targetPort: 8080    
 ...
