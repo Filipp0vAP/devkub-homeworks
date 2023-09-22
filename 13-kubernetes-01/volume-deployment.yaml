@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: volume-deployment
+  labels:
+    app: volume-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: volume-app
+  template:
+    metadata:
+      labels:
+        app: volume-app
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        imagePullPolicy: IfNotPresent
+        command: ['sh', '-c', 'while ture; do date; echo Success! > /output/success.txt; sleep 5; done']
+        volumeMounts:
+        - name: vol
+          mountPath: /output
+        resources:
+          limits:
+            memory: 1024Mi
+            cpu: "2"
+          requests:
+            memory: 512Mi
+            cpu: "1"
+      - name: multitool
+        image: wbitt/network-multitool
+        imagePullPolicy: IfNotPresent
+        command: ['sh', '-c', 'while true; do cat /input/success.txt; sleep 5; done']
+        volumeMounts:
+        - name: vol
+          mountPath: /input
+        resources:
+          limits:
+            memory: 1024Mi
+            cpu: "2"
+          requests:
+            memory: 512Mi
+            cpu: "1"
+      volumes:
+      - name: vol
+        hostPath:
+          path: /var/data
+...
