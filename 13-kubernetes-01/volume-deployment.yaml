@@ -20,7 +20,7 @@ spec:
       - name: busybox
         image: busybox
         imagePullPolicy: IfNotPresent
-        command: ['sh', '-c', 'while true; do date; echo Success! > /output/success.txt; sleep 5; done']
+        command: ['sh', '-c', 'while true; do date; echo Success! >> /output/success.txt; sleep 5; done']
         volumeMounts:
         - name: vol
           mountPath: /output
