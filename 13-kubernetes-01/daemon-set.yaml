@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: multitool-daemonset
+  labels:
+    app: multitool
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: multitool
+  template:
+    metadata:
+      labels:
+        app: multitool
+    spec:
+      containers:
+        - name: multitool-container
+          image: wbitt/network-multitool
+          env:
+          - name: HTTP_PORT
+            value: "8080"
+          - name: HTTPS_PORT
+            value: "443"
+          ports:
+          - containerPort: 8080
+            name: http-port
+          - containerPort: 443
+            name: https-port
+          volumeMounts:
+            - name: syslog-volume
+              mountPath: /var/log/syslog
+              readOnly: true
+      volumes:
+        - name: syslog-volume
+          hostPath:
+            path: /var/log/syslog
+...
