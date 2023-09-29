@@ -50,11 +50,20 @@
 ------
 
 ## Ответ
+
 ### Задание 1 
-1. [Манифест](./volume-deployment.yaml) написал
-2. Файл обновляется и доступен из multitool
+
+- [Манифест](./volume-deployment.yaml) написал
+- Файл обновляется и доступен из multitool
     ![input](./img/input.png)
 
+---
+
+### Задание 2
+
+- [Манифест](./volume-deployment.yaml) c DaemonSet написал
+- Файл логов читается
+    ![syslog](./img/syslog.png)
 
 ------
 ### Правила приёма работы
