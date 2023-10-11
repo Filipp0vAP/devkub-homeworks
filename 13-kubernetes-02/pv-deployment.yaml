@@ -22,7 +22,7 @@ spec:
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c', 'while true; do date; echo Success! >> /output/success.txt; sleep 5; done']
         volumeMounts:
-        - name: pvc-manual
+        - name: pvc-manual-volume
           mountPath: /output
         resources:
           limits:
@@ -36,7 +36,7 @@ spec:
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c', 'while true; do cat /input/success.txt; sleep 5; done']
         volumeMounts:
-        - name: pvc-manual
+        - name: pvc-manual-volume
           mountPath: /input 
         resources:
           limits:
@@ -46,7 +46,7 @@ spec:
             memory: 512Mi
             cpu: "1"
       volumes:
-      - name: pvc-manual
+      - name: pvc-manual-volume
         persistentVolumeClaim:
           claimName: pvc-manual
 ...
