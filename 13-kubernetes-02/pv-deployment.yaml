@@ -71,7 +71,7 @@ metadata:
 spec:
   capacity:
     storage: 2Gi
-  # volumeMode: Filesystem
+  volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
   # hostPath:
