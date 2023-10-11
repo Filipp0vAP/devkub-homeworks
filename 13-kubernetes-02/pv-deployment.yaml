@@ -75,7 +75,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-  #   path: /data/pv
+    path: /data/pv
   # persistentVolumeReclaimPolicy: Delete
   # storageClassName: slow
   # mountOptions:
