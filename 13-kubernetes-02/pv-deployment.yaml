@@ -74,7 +74,7 @@ spec:
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
-  # hostPath:
+  hostPath:
   #   path: /data/pv
   # persistentVolumeReclaimPolicy: Delete
   # storageClassName: slow
