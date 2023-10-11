@@ -59,7 +59,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  # volumeMode: Filesystem
+  volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
 ...
@@ -76,13 +76,5 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: /data/pv
-  # persistentVolumeReclaimPolicy: Delete
-  # storageClassName: slow
-  # mountOptions:
-  #   - hard
-  #   - nfsvers=4.1
-  # nfs:
-  #   path: /tmp
-  #   server: 172.17.0.2
-
+  persistentVolumeReclaimPolicy: Delete
 ...
