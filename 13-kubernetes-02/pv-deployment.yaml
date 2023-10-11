@@ -10,11 +10,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: volume-app
+      app: pv-app
   template:
     metadata:
       labels:
-        app: volume-app
+        app: pv-app
     spec:
       containers:
       - name: busybox
@@ -22,7 +22,7 @@ spec:
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c', 'while true; do date; echo Success! >> /output/success.txt; sleep 5; done']
         volumeMounts:
-        - name: vol-manual
+        - name: pvc-manual
           mountPath: /output
         resources:
           limits:
@@ -36,8 +36,8 @@ spec:
         imagePullPolicy: IfNotPresent
         command: ['sh', '-c', 'while true; do cat /input/success.txt; sleep 5; done']
         volumeMounts:
-        - name: vol-manual
-          mountPath: /input
+        - name: pvc-manual
+          mountPath: /input 
         resources:
           limits:
             memory: 1024Mi
@@ -46,7 +46,7 @@ spec:
             memory: 512Mi
             cpu: "1"
       volumes:
-      - name: vol-manual
+      - name: pvc-manual
         persistentVolumeClaim:
           claimName: pvc-manual
 ...
