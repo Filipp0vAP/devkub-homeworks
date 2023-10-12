@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-deployment
+  labels:
+    app: nfs-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-app
+  template:
+    metadata:
+      labels:
+        app: nfs-app
+    spec:
+      containers:
+      - name: multitool
+        image: wbitt/network-multitool
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: nfs-manual-volume
+          mountPath: /static 
+        resources:
+          limits:
+            memory: 1024Mi
+            cpu: "2"
+          requests:
+            memory: 512Mi
+            cpu: "1"
+      volumes:
+      - name: nfs-manual-volume
+        persistentVolumeClaim:
+          claimName: nfs-pvc-manual
+...
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-pvc-manual
+spec:
+  storageClassName: nfs-csi
+  resources:
+    requests:
+      storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+...
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: nfs-csi
+provisioner: nfs.csi.k8s.io
+parameters:
+  server: 10.129.0.34
+  share: /srv/nfs
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+mountOptions:
+  - hard
+  - nfsvers=4.1
+...
