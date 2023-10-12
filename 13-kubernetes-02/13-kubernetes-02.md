@@ -57,18 +57,31 @@
 
 - Написал [Манифест](./pv-deployment.yaml), в нем описал Deployment, PVC и PV
 - multitool может читать файл
+
     ![multitool_check](./img/multitool_check.png)
 
 - Удалил Deployment и PVC. PV перешел в статус Available, так как к нему больше не привязан PVC
+
     ![pv_status](./img/pv_status.png)
+
 - К сожалению по пути указанному в HostPath ничего не было, файлы лежали в папках внутри /var/snap/microk8s.
 После удаления PVC папка с файлами тоже удалилась. Я так и не смог заставить microk8s сохранять файлы в HostPath.
 А после удаления PV ничего не произошло.
+
     ![hostpath](./img/hostpath.png)
 
 ### Задание 2
 
+- Создал nfs по инструкции
 
+    ![nfs_server](./img/nfs_server.png)
+
+- Написал манифест с Deployment, PVC и StorageClass - [Манифест](./nfs-deployment.yaml)
+- Файл доступен для чтения и записи из пода и на nfs сервере
+
+    ![nfs_volume](./img/nfs_volume.png)
+
+    ![nfs_server_volume.png](./img/nfs_server_volume.png)
 
 ------
 
