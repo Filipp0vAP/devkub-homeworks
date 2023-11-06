@@ -149,15 +149,15 @@ spec:
   ports:
   - name: http-port
     protocol: TCP
-    nodePort: 80
+    targetPort: 80
     port: 80
   - name: https-port
     protocol: TCP
-    nodePort: 443
+    targetPort: 443
     port: 443
   - name: multitool-port
     protocol: TCP
-    nodePort: 8080
+    targetPort: 8080
     port: 8080
   type: NodePort
 ---
