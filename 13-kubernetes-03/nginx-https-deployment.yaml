@@ -142,22 +142,22 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-https-svc
+  name: nginx-svc
 spec:
   selector:
     app: nginx-https
   ports:
   - name: http-port
     protocol: TCP
-    nodePort: 30080
+    nodePort: 80
     port: 80
   - name: https-port
     protocol: TCP
-    nodePort: 30443
+    nodePort: 443
     port: 443
   - name: multitool-port
     protocol: TCP
-    nodePort: 30880
+    nodePort: 8080
     port: 8080
   type: NodePort
 ---
@@ -179,7 +179,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginx-https-svc
+            name: nginx-svc
             port:
               name: https-port
   tls:
