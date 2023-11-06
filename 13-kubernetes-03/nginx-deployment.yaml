@@ -63,7 +63,7 @@ metadata:
   name: nginx-node-svc
 spec:
   selector:
-    app: nginx-node
+    app: nginx
   ports:
   - name: ngixn-port
     protocol: TCP
