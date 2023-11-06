@@ -182,7 +182,7 @@ spec:
             name: nginx-https-svc
             port:
               name: nginx-https-port
-  tls.crt:
+  tls:
     - hosts:
       - netology.filipp0vap.ru
       secretName: my-secret
