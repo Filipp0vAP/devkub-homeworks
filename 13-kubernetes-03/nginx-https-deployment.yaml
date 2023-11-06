@@ -51,10 +51,10 @@ spec:
                 key: http_port
         ports:
         - containerPort: 8080
-        volumes:
-        - name: configmap-volume
-          configMap:
-            name: my-configmap
+      volumes:
+      - name: configmap-volume
+        configMap:
+          name: my-configmap
 ---
 apiVersion: v1
 kind: ConfigMap
