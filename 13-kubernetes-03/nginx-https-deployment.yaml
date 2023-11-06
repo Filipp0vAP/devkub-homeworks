@@ -30,6 +30,10 @@ spec:
         volumeMounts:
         - name: configmap-volume
           mountPath: /usr/share/nginx/html
+        - name: config-nginx
+          mountPath: /etc/nginx/conf.d
+        - name: ssl-secret
+          mountPath: /etc/nginx/ssl
         ports:
         - containerPort: 80
         - containerPort: 443
@@ -55,6 +59,12 @@ spec:
       - name: configmap-volume
         configMap:
           name: my-configmap
+      - name: config-nginx
+        configMap:
+          name: config-nginx
+      - name: ssl-secret
+        secret:
+          secretName: my-secret
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -83,8 +93,51 @@ data:
     <p><em>Thank you for your classes.</em></p>
     </body>
     </html>
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-nginx
+  namespace: default
+data:
+  netology.filipp0vap.ru.conf: |
+    server {
+              listen 80 default_server;
+              listen [::]:80 default_server;
+              listen 443 ssl;
 
+              root /usr/share/nginx/html;
+              index index.html;
 
+          server_name default;
+          ssl_certificate /etc/nginx/ssl/tls.crt;
+          ssl_certificate_key /etc/nginx/ssl/tls.key;
+          ssl_session_timeout 1d;
+          ssl_session_cache shared:SSL:50m;
+          ssl_session_tickets off;
+          # modern configuration. tweak to your needs.
+          ssl_protocols TLSv1.2;
+          ssl_ciphers 'ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256';
+          ssl_prefer_server_ciphers on;
+          # HSTS (ngx_http_headers_module is required) (15768000 seconds = 6 months)
+          add_header Strict-Transport-Security max-age=15768000;
+          # OCSP Stapling ---
+          # fetch OCSP records from URL in ssl_certificate and cache them
+          ssl_stapling on;
+          ssl_stapling_verify on;
+          location / {
+                  try_files $uri $uri/ =404;
+          }
+      }
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+type: kubernetes.io/tls
+data:
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUQwVENDQXJtZ0F3SUJBZ0lVRXRlamV1cWtNU1l6c0dsWmxWTjFJZHZycE9zd0RRWUpLb1pJaHZjTkFRRUwKQlFBd2VERUxNQWtHQTFVRUJoTUNVbFV4RHpBTkJnTlZCQWdNQmsxdmMyTnZkekVQTUEwR0ExVUVCd3dHVFc5egpZMjkzTVJNd0VRWURWUVFLREFwR2FXeHBjSEF3ZGtGUU1SRXdEd1lEVlFRTERBaHVaWFJ2Ykc5bmVURWZNQjBHCkNTcUdTSWIzRFFFSkFSWVFabWxzYVhCd01IWmhjRUJ3YlM1dFpUQWVGdzB5TXpFeE1EWXlNRE01TURSYUZ3MHkKTXpFeU1EWXlNRE01TURSYU1IZ3hDekFKQmdOVkJBWVRBbEpWTVE4d0RRWURWUVFJREFaTmIzTmpiM2N4RHpBTgpCZ05WQkFjTUJrMXZjMk52ZHpFVE1CRUdBMVVFQ2d3S1JtbHNhWEJ3TUhaQlVERVJNQThHQTFVRUN3d0libVYwCmIyeHZaM2t4SHpBZEJna3Foa2lHOXcwQkNRRVdFR1pwYkdsd2NEQjJZWEJBY0cwdWJXVXdnZ0VpTUEwR0NTcUcKU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRRGkveHhjcFN6NFB5TDRUSHV6TUthYzFjRWFBME10Rk42TQozOURwV0tleGlqQ2NkeVVFa0lKR0FQN2kxVEFMVXRsSlhVakpyYVR2K3F3aWl2OStDTzhUNU9jZVBuK2ROK1hUClI5dlJlR0ozWityemFlWnRmZldnV0R5bGRDNVZFWEJNS3puNE9Xc2VzTkFJNmw3RG05TjZxYmU1alVwT04zSysKR2NuTFp1TktWWnl0aFRqS3NQQVpFT3ArSkpqQ2pVS0FaVytvblJLclVZempRNUgzVXQzWlFJS0R1dVVUMWxGMgpDclkybFBhYkRKdHZ3VFdRTU5RNmFibXh5bVpXVURIZUx0LzdTdko5eGE0SnZWOUQ3WDlUWWFkcFR3RHM0YThMCk9rMDJFU3IvZTlGd2JhVHZQUmhPbUJPZ0ZvTmI5VHYvejZ1NWlSVXBsYVJMNFpHRkpBM3pBZ01CQUFHalV6QlIKTUIwR0ExVWREZ1FXQkJRc2hGaUdwTUszeTkrQjNaeWdFRW12NThadzB6QWZCZ05WSFNNRUdEQVdnQlFzaEZpRwpwTUszeTkrQjNaeWdFRW12NThadzB6QVBCZ05WSFJNQkFmOEVCVEFEQVFIL01BMEdDU3FHU0liM0RRRUJDd1VBCkE0SUJBUUMwakRGTjdVWk8wcXlneUw2Z01neVFsRUNTOEJTcXd6MDFuWHo5SkV2N2lDY0JTUDZxcGhxamROci8KUFhIbUo5MTFkcmhxN1htUTZuSFkrVlJwQzdNN2xFNFYvdkdadlJHMlRiWVNiYk4rTFZQd1FzNGdGSjF1WG1wegowRGp2dWpFbWFCNmFHZmh2cllFOEgyV2gyWXBJYjgyWGlYYXVkZktJbEhCU01nNnlCMTB6TjZQUUpORnB3dHYzCko4ejRnVGJYdU41L3hyQ0JuUUF1NWtNN2ZRcG8zM3VUeEZmTmtGQzA3QVN6K2E4QjJjU00zSHhZZjNwTkQyU0kKZDQ5QWNDU1hkRTI5VERqd01nZjA1RWcvdmZlTlFTMk44UmtiL21hOENNNFBUbEFjNXdRWTkzNEF6WHlnVHpoaApZUkR5bzVmQVpJaXhteTArLzFvTWVFaUQ1b3NBCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  tls.key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUV2Z0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQktnd2dnU2tBZ0VBQW9JQkFRRGkveHhjcFN6NFB5TDQKVEh1ek1LYWMxY0VhQTBNdEZONk0zOURwV0tleGlqQ2NkeVVFa0lKR0FQN2kxVEFMVXRsSlhVakpyYVR2K3F3aQppdjkrQ084VDVPY2VQbitkTitYVFI5dlJlR0ozWityemFlWnRmZldnV0R5bGRDNVZFWEJNS3puNE9Xc2VzTkFJCjZsN0RtOU42cWJlNWpVcE9OM0srR2NuTFp1TktWWnl0aFRqS3NQQVpFT3ArSkpqQ2pVS0FaVytvblJLclVZemoKUTVIM1V0M1pRSUtEdXVVVDFsRjJDclkybFBhYkRKdHZ3VFdRTU5RNmFibXh5bVpXVURIZUx0LzdTdko5eGE0Sgp2VjlEN1g5VFlhZHBUd0RzNGE4TE9rMDJFU3IvZTlGd2JhVHZQUmhPbUJPZ0ZvTmI5VHYvejZ1NWlSVXBsYVJMCjRaR0ZKQTN6QWdNQkFBRUNnZ0VBY013QUZmRm1OVDE2YlJQa2JCaUMwbkJOY2xXb3JlQXU3cVhSTkFMLzRYTWYKME1CTHZzYm9WVXp0VzE1QWI0QU54U3o3bkd3VEI4VHlnSCs5a2ExeXo5bnhGdEJMclo0M01CUUhJVUhHL0RyQgpQNCtpRjBwK0lkMTIxV2kwRlVXREhmWms2Zm51UnVQcG5HU0tEbjJDU3ZQRy9nYzlvenhlWWlTQ1ovYUtmMGEzCjVwUmRsbG1BQWJxYUdNV0xSZDlwbmg0UFUzZ0FKWVFhRGtxVVlrM1dnNTZIdkFSQ1dDZ2F2bW1iQTZ0cllkbnEKbFZBRkNtcXJsS3hQT05kZFZEMFpZRzZLSVNKdzcvMC9SN1dacTVYUnNiZXh2VG9CdVhnUk51TjI2R2EwKzRQTwpDYklQQ1J4b3ZiR0Z3dmtrU0pkRzVhdjkwWUxibFdkamM3T1cvUHMwSVFLQmdRRDFEY2ZEMVhlUm9HRWF0ZVNXCktGalBITWVqL0kyN2RWb1Rwa3ovUnl5T3Y5RENlWGRldXo2ZDF4KzZUZW52dWVnV0dTd3kyYzdCaklwRm1TeTUKWmVmVzQ3QU1uaGxuQTZrVXZVdXo2SWY1bkhmc1lMYUM3OTlnOUhlSStsYmNiais1V1pzcHNid1RhTnFkNkJBYQpTS1ovelV6bjJkV2dHVU80RXFoSkZiT0F1UUtCZ1FEdEl0ZlNPdjFLODJ4SmtiS2phU1dwRVVSNzF3UjYxeWxjCjAxYWM1bitpYmdjb1JhbEdNb2E3Q1phZjdQVHRabVEwK1V5WHVLcEFsNlNYYWcwRVR4VG9EaEhpVVhIYzFhU3QKZ20wWllxb0RQZkFLRTM0eWx4SFpRSGM1YlBDOXRDMnFObXdvVEVWdktUdHhvSk9aWUJDL1phbTJXMTFDMkl2MgpHcUx0eHpxMkN3S0JnUUM5dm5yVWR1Q0xZT3h2V3pIdzFyTFZRNHFOdmtzY1FHU0wzSE80SWlzdEtQY0M3anh3Cm5IbUNqQVRrSTlva3BnVS92eVFMQjcxZy9tbytNN2wrb0pwZ09KS2pZbk4yNFUyMVlsRlFyNWRCdmxiWkw1V0MKVXl2YWpkQlV2c290Q2l6TFhzZVhCQ2tGdW1XMGFQQzIrVlA2bDBPYUxvQ0w0NlFjemsyQnNZejQrUUtCZ1FDcQpPcWIvamNVaXR0ZjNnQlhpNUtwYVVjRDl2WDdEeUEwelM2c1Rld3dJeUQ5dkU0TE9sNXJNVGJmSkdrdEEySTM2CjBUUEFmcG9KUUZLeE56b2M2OEF3VFZsZFErWWZCMmJ0LzREZUJrdlJnL2I2NUw5bEJibVVZWWkwdXBXZk9PYkgKRjhaUXIxL3d5b0tYc1JRRHVFaU5mU2QxZHVUZUJhR0RpOStHSGN6eHZRS0JnRHFzeVU2cDhiclJmcm45bGw4bApXYmI5aHJraWllTUY5MTNScUxKUVBiMk96YytvaGdTRFEvY085YXRORXhJM05vME5INXZJUWtuN240Y2tNYzFwCkx3N1djMnhCNUJ1eFBiaytKM0ZnNWMydHVMZyt1K1JhZGdsT2FiVVpYcE1Od1M3M2NRR2Znc1ZoVUFCYUNIdlMKZ0Vrc0FDMGdUWWh0cWtWZU1wOUQ2RkVQCi0tLS0tRU5EIFBSSVZBVEUgS0VZLS0tLS0K
 ---
 apiVersion: v1
 kind: Service
@@ -107,24 +160,29 @@ spec:
     nodePort: 30880
     port: 8080
   type: NodePort
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: myingress
-#   annotations:
-#     nginx.ingress.kubernetes.io/rewrite-target: /
-#   labels:
-#     name: myingress
-# spec:
-#   rules:
-#   - host: 
-#     http:
-#       paths:
-#       - path: /
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: nginx-https-svc
-#             port:
-#               name: nginx-http-port
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  labels:
+    name: myingress
+spec:
+  rules:
+  - host: netology.filipp0vap.ru
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-https-svc
+            port:
+              name: nginx-https-port
+  tls.crt:
+    - hosts:
+      - netology.filipp0vap.ru
+      secretName: my-secret
