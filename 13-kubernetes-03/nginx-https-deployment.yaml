@@ -147,15 +147,15 @@ spec:
   selector:
     app: nginx-https
   ports:
-  - name: nginx-http-port
+  - name: http-port
     protocol: TCP
     nodePort: 30080
     port: 80
-  - name: nginx-https-port
+  - name: https-port
     protocol: TCP
     nodePort: 30443
     port: 443
-  - name: multitool-http-port
+  - name: multitool-port
     protocol: TCP
     nodePort: 30880
     port: 8080
@@ -181,7 +181,7 @@ spec:
           service:
             name: nginx-https-svc
             port:
-              name: nginx-https-port
+              name: https-port
   tls:
     - hosts:
       - netology.filipp0vap.ru
