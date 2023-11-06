@@ -138,7 +138,7 @@ spec:
     port: 80
   - name: https-port
     protocol: TCP
-    targetPort: 443
+    targetPort: 80
     port: 443
   type: NodePort
 ---
