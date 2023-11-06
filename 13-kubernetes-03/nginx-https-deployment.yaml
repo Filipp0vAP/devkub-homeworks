@@ -83,14 +83,13 @@ metadata:
 data:
   netology.filipp0vap.ru.conf: |
     server {
-              listen 80 default_server;
-              listen [::]:80 default_server;
-              listen 443 ssl;
+              listen 80 ;
+              listen 443 default ssl;
 
               root /usr/share/nginx/html;
               index index.html;
 
-          server_name default;
+          server_name netology.filipp0vap.ru;
           ssl_certificate /etc/nginx/ssl/tls.crt;
           ssl_certificate_key /etc/nginx/ssl/tls.key;
           ssl_session_timeout 1d;
