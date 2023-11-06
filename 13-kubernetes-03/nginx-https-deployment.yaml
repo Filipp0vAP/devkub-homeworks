@@ -97,7 +97,7 @@ spec:
     port: 443
   - name: multitool-http-port
     protocol: TCP
-    nodePort: 38080
+    nodePort: 30880
     port: 8080
   type: NodePort
 # ---
