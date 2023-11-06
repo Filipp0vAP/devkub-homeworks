@@ -37,24 +37,6 @@ spec:
         ports:
         - containerPort: 80
         - containerPort: 443
-      - name: multitool-https
-        image: wbitt/network-multitool
-        imagePullPolicy: IfNotPresent
-        resources:
-          limits:
-            memory: 1024Mi
-            cpu: "2"
-          requests:
-            memory: 512Mi
-            cpu: "1"
-        env:
-          - name: HTTP_PORT 
-            valueFrom:
-              configMapKeyRef:
-                name: my-configmap
-                key: http_port
-        ports:
-        - containerPort: 8080
       volumes:
       - name: configmap-volume
         configMap:
@@ -72,7 +54,6 @@ metadata:
   name: my-configmap
   namespace: default
 data:
-  http_port: "8080"
   index.html: |
     <!DOCTYPE html>
     <html>
@@ -155,18 +136,13 @@ spec:
     protocol: TCP
     targetPort: 443
     port: 443
-  - name: multitool-port
-    protocol: TCP
-    targetPort: 8080
-    port: 8080
-  type: NodePort
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: myingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+#    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
   labels:
     name: myingress
