@@ -34,6 +34,39 @@
 2. Одну версию в namespace=app1, вторую версию в том же неймспейсе, третью версию в namespace=app2.
 3. Продемонстрируйте результат.
 
+---
+
+### Ответ
+### Задание 1. Подготовить Helm-чарт для приложения
+
+1. Сгенерировал [Сhart](./netology-13-05/) с nginx
+
+    ![create_helm](./img/create_helm.png)
+
+2. Внутри Chart:
+    - [Deployment](./netology-13-05/templates/deployment.yaml)
+    - [Service](./netology-13-05/templates/service.yaml)
+    - [Ingress](./netology-13-05/templates/ingress.yaml)
+    - И даже [ServiceAccount](./netology-13-05/templates/serviceaccount.yaml)
+
+    Установка Chart
+
+    ![install_helm](./img/install_helm.png)
+
+
+3. Изменил версию приложения
+    
+    ![change_app_version](./img/change_app_version.png)
+
+---
+### Задание 2. Запустить две версии в разных неймспейсах
+
+1. Подготовив чарт, необходимо его проверить. Запуститe несколько копий приложения.
+2. Одну версию в namespace=app1, вторую версию в том же неймспейсе, третью версию в namespace=app2.
+3. Продемонстрируйте результат
+
+---
+
 ### Правила приёма работы
 
 1. Домашняя работа оформляется в своём Git репозитории в файле README.md. Выполненное домашнее задание пришлите ссылкой на .md-файл в вашем репозитории.
