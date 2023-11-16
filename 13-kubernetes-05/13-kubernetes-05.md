@@ -61,9 +61,20 @@
 ---
 ### Задание 2. Запустить две версии в разных неймспейсах
 
-1. Подготовив чарт, необходимо его проверить. Запуститe несколько копий приложения.
-2. Одну версию в namespace=app1, вторую версию в том же неймспейсе, третью версию в namespace=app2.
-3. Продемонстрируйте результат
+- Создал namespace'ы командами
+    ```bash
+    kubectl create namespace app1
+    kubectl create namespace app2
+    ```
+- Затем правил версию Chart и приложения, после чего выполнял команды
+    ```bash
+    helm install netology-nginx1 ./netology-13-05 --version 0.1.0 --namespace app1
+    helm install netology-nginx2 ./netology-13-05 --version 0.2.0 --namespace app1
+    helm install netology-nginx3 ./netology-13-05 --version 0.3.0 --namespace app2
+    ```
+- Результат
+
+    ![diff_app_ver](./img/diff_app_ver.png)
 
 ---
 
