@@ -6,7 +6,7 @@
 
 В ветке [devkub-15](https://github.com/Filipp0vAP/devkub-homeworks/tree/devkub-15) находятся решенные задания с ответами из потока devkub-15.
 
-В ветке [devkub-21](https://github.com/Filipp0vAP/devkub-homeworks/tree/devkub-15) находятся решенные задания с ответами из потока devkub-21 (Основной поток).
+В ветке [devkub-21](https://github.com/Filipp0vAP/devkub-homeworks/tree/devkub-21) находятся решенные задания с ответами из потока devkub-21 (Основной поток).
 
 Обязательными к выполнению являются задачи без указания звездочки. Их выполнение необходимо для получения зачета и диплома о профессиональной переподготовке.
 
